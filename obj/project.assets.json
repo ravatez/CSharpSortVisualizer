@@ -8,24 +8,19 @@
     "net9.0": []
   },
   "packageFolders": {
-    "C:\\Users\\rravate\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/ravatez/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\rravate\\Desktop\\C# Practice\\SortingProj\\Practice.csproj",
+      "projectUniqueName": "/Users/ravatez/Desktop/CSharpSortVisualizer/Practice.csproj",
       "projectName": "Practice",
-      "projectPath": "C:\\Users\\rravate\\Desktop\\C# Practice\\SortingProj\\Practice.csproj",
-      "packagesPath": "C:\\Users\\rravate\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\rravate\\Desktop\\C# Practice\\SortingProj\\obj\\",
+      "projectPath": "/Users/ravatez/Desktop/CSharpSortVisualizer/Practice.csproj",
+      "packagesPath": "/Users/ravatez/.nuget/packages/",
+      "outputPath": "/Users/ravatez/Desktop/CSharpSortVisualizer/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\rravate\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config"
+        "/Users/ravatez/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
@@ -70,7 +65,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.202/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

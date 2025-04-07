@@ -1,8 +1,8 @@
 using System;
 
-public class HeapSort
+public class HeapSort : IsSort
 {
-    public static void Sort(int[] array)
+    public void Sort(int[] array)
     {
         int n = array.Length;
 

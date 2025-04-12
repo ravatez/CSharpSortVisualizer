@@ -5,8 +5,8 @@ namespace Sort.Base
 {
     public abstract class Base
     {
-        protected int[] elements;
-        public virtual void Sort(); 
+        protected int[] elements = Array.Empty<int>();
+        public abstract void Sort();
         public bool IsEmpty() => elements.Length <= 0;
         public void AddElements(int[] elements) => this.elements = elements;
 

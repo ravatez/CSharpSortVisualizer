@@ -1,8 +1,9 @@
+/*
 using System;
 
-public class HeapSort : IsSort
+public class HeapSort : Base
 {
-    public void Sort(int[] array)
+    public override void Sort(int[] array)
     {
         int n = array.Length;
 
@@ -53,3 +54,4 @@ public class HeapSort : IsSort
         array[b] = temp;
     }
 }
+*/

@@ -3,15 +3,15 @@ using Sort.Base;
 
 public class BubbleSort : Base
 {
-    public void Sort()
+    public override void Sort()
     {
-        if(IsEmpty())
+        if (IsEmpty())
         {
-            Console.WriteLine("Doesnt have elements to Sort");
+            Console.WriteLine("Doesn't have elements to sort");
             return;
         }
 
-        int n = elements;
+        int n = elements.Length; // Corrected to access the length of the array
         bool swapped;
         for (int i = 0; i < n - 1; i++)
         {

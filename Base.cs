@@ -1,4 +1,4 @@
-interface IsSort 
+interface ISort
 {
-    public void Sort(int[] array);
+    public void Sort(T[] array);
 }

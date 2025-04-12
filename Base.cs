@@ -8,6 +8,7 @@ namespace Sort.Base
         protected int[] elements;
         public virtual void Sort(); 
         public bool IsEmpty() => elements.Length <= 0;
+        public void AddElements(int[] elements) => this.elements = elements;
 
         protected void Swap(int swapIndexA,int swapIndexB)
         {

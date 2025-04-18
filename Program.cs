@@ -5,10 +5,12 @@ class Program
 {
     static void Main(string[] args)
     {
-        int[] array = { 34, 7, 23, 32, 5, 62 };
         Base bubbleSort = new BubbleSort();
-        bubbleSort.AddElements(array);
-        bubbleSort.Sort();
-        bubbleSort.Display();
+
+        SortContextManager contextManager = new();
+        contextManager.AddElements(new[] { 34, 7, 23, 32, 5, 62 });
+        contextManager.AddContext(bubbleSort);
+        contextManager.Sort();
+        contextManager.Display();
     }
 }

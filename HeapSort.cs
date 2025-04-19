@@ -1,57 +1,37 @@
-/*
-using System;
+using Sort.Base;
 
 public class HeapSort : Base
 {
-    public override void Sort(int[] array)
+    public override void Sort(int[] elements)
     {
-        int n = array.Length;
+        int n = elements.Length;
 
-        // Build max heap
         for (int i = n / 2 - 1; i >= 0; i--)
-        {
-            Heapify(array, n, i);
-        }
+            Heapify(elements, n, i);
 
-        // Extract elements from heap one by one
         for (int i = n - 1; i >= 0; i--)
         {
-            // Move current root to end
-            Swap(array, 0, i);
-
-            // Call max heapify on the reduced heap
-            Heapify(array, i, 0);
+            Swap(elements, 0, i);
+            Heapify(elements, i, 0);
         }
     }
 
-    private static void Heapify(int[] array, int n, int i)
+    private void Heapify(int[] arr, int n, int i)
     {
         int largest = i;
         int left = 2 * i + 1;
         int right = 2 * i + 2;
 
-        if (left < n && array[left] > array[largest])
-        {
+        if (left < n && arr[left] > arr[largest])
             largest = left;
-        }
 
-        if (right < n && array[right] > array[largest])
-        {
+        if (right < n && arr[right] > arr[largest])
             largest = right;
-        }
 
         if (largest != i)
         {
-            Swap(array, i, largest);
-            Heapify(array, n, largest);
+            Swap(arr, i, largest);
+            Heapify(arr, n, largest);
         }
     }
-
-    private static void Swap(int[] array, int a, int b)
-    {
-        int temp = array[a];
-        array[a] = array[b];
-        array[b] = temp;
-    }
 }
-*/

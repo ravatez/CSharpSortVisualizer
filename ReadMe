@@ -1,1 +1,216 @@
-ReadMe
+1. Bubble Sort
+Functionality: Repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order. The process continues until the list is sorted.
+
+Time Complexity:
+
+Best: O(n) (when already sorted)
+
+Worst: O(n²) (when reversed)
+
+Average: O(n²)
+
+Space Complexity: O(1) (in-place)
+
+2. Heap Sort
+Functionality: Converts the array into a binary heap, which can be either max-heap or min-heap. The largest element is placed at the root and moved to the end of the array, and the heap is re-heapified.
+
+Time Complexity:
+
+Best: O(n log n)
+
+Worst: O(n log n)
+
+Average: O(n log n)
+
+Space Complexity: O(1) (in-place)
+
+3. Quick Sort
+Functionality: Selects a "pivot" element from the array and partitions the other elements into two sub-arrays according to whether they are less than or greater than the pivot. Recursively sorts the sub-arrays.
+
+Time Complexity:
+
+Best: O(n log n)
+
+Worst: O(n²) (when the pivot is the smallest or largest element)
+
+Average: O(n log n)
+
+Space Complexity: O(log n) (recursive stack)
+
+4. Merge Sort
+Functionality: Divides the array into two halves, sorts them recursively, and then merges them back together.
+
+Time Complexity:
+
+Best: O(n log n)
+
+Worst: O(n log n)
+
+Average: O(n log n)
+
+Space Complexity: O(n) (due to auxiliary arrays for merging)
+
+5. Insertion Sort
+Functionality: Builds the sorted array one element at a time by taking each element and inserting it into its correct position relative to the already sorted part of the array.
+
+Time Complexity:
+
+Best: O(n) (when already sorted)
+
+Worst: O(n²) (when reversed)
+
+Average: O(n²)
+
+Space Complexity: O(1) (in-place)
+
+6. Selection Sort
+Functionality: Repeatedly selects the smallest element from the unsorted portion of the array and swaps it with the first unsorted element.
+
+Time Complexity:
+
+Best: O(n²)
+
+Worst: O(n²)
+
+Average: O(n²)
+
+Space Complexity: O(1) (in-place)
+
+7. Counting Sort
+Functionality: Counts the frequency of each element in the array and uses this information to place elements in the correct position.
+
+Time Complexity:
+
+Best: O(n + k)
+
+Worst: O(n + k)
+
+Average: O(n + k)
+
+Where k is the range of the input.
+
+Space Complexity: O(k) (due to the count array)
+
+8. Radix Sort
+Functionality: Sorts numbers digit by digit, starting from the least significant digit (LSD) or most significant digit (MSD).
+
+Time Complexity:
+
+Best: O(nk)
+
+Worst: O(nk)
+
+Average: O(nk)
+
+Where k is the number of digits in the largest number.
+
+Space Complexity: O(n + k)
+
+9. Bucket Sort
+Functionality: Divides the elements into different "buckets" based on a range of values, then sorts the individual buckets using another sorting algorithm (often Insertion Sort).
+
+Time Complexity:
+
+Best: O(n + k)
+
+Worst: O(n²) (if buckets have many elements)
+
+Average: O(n + k)
+
+Space Complexity: O(n + k)
+
+10. Tim Sort
+Functionality: Hybrid sorting algorithm derived from Merge Sort and Insertion Sort. It divides the array into smaller sub-arrays, sorts them using Insertion Sort, and then merges them.
+
+Time Complexity:
+
+Best: O(n)
+
+Worst: O(n log n)
+
+Average: O(n log n)
+
+Space Complexity: O(n)
+
+11. Shell Sort
+Functionality: A generalization of Insertion Sort that allows the exchange of items that are far apart, which helps improve performance.
+
+Time Complexity:
+
+Best: O(n log n)
+
+Worst: O(n²) (depends on gap sequence)
+
+Average: O(n log n)
+
+Space Complexity: O(1) (in-place)
+
+12. Pigeonhole Sort
+Functionality: Assumes the input elements are integers within a small range. The array is divided into "pigeonholes" corresponding to the range, and the elements are placed into the holes.
+
+Time Complexity:
+
+Best: O(n + range)
+
+Worst: O(n + range)
+
+Average: O(n + range)
+
+Space Complexity: O(n + range)
+
+13. Comb Sort
+Functionality: A variation of Bubble Sort that uses a gap sequence to compare elements further apart and shrink the gap over time.
+
+Time Complexity:
+
+Best: O(n log n)
+
+Worst: O(n²)
+
+Average: O(n log n)
+
+Space Complexity: O(1) (in-place)
+
+14. Cycle Sort
+Functionality: Finds cycles in the array and places each element in its correct position by rotating the elements of the cycle. It is particularly efficient for arrays with many duplicate values.
+
+Time Complexity:
+
+Best: O(n²)
+
+Worst: O(n²)
+
+Average: O(n²)
+
+Space Complexity: O(1) (in-place)
+
+15. Gnome Sort
+Functionality: Similar to Insertion Sort but works by moving the elements back and forth instead of comparing them with each element to the left.
+
+Time Complexity:
+
+Best: O(n)
+
+Worst: O(n²)
+
+Average: O(n²)
+
+Space Complexity: O(1) (in-place)
+
+| Algorithm        | Best Time Complexity | Worst Time Complexity | Average Time Complexity | Space Complexity |
+|------------------|----------------------|-----------------------|-------------------------|------------------|
+| Bubble Sort      | O(n)                 | O(n²)                 | O(n²)                   | O(1)             |
+| Heap Sort        | O(n log n)           | O(n log n)            | O(n log n)              | O(1)             |
+| Quick Sort       | O(n log n)           | O(n²)                 | O(n log n)              | O(log n)         |
+| Merge Sort       | O(n log n)           | O(n log n)            | O(n log n)              | O(n)             |
+| Insertion Sort   | O(n)                 | O(n²)                 | O(n²)                   | O(1)             |
+| Selection Sort   | O(n²)                | O(n²)                 | O(n²)                   | O(1)             |
+| Counting Sort    | O(n + k)             | O(n + k)              | O(n + k)                | O(k)             |
+| Radix Sort       | O(nk)                | O(nk)                 | O(nk)                   | O(n + k)         |
+| Bucket Sort      | O(n + k)             | O(n²)                 | O(n + k)                | O(n + k)         |
+| Tim Sort         | O(n)                 | O(n log n)            | O(n log n)              | O(n)             |
+| Shell Sort       | O(n log n)           | O(n²)                 | O(n log n)              | O(1)             |
+| Pigeonhole Sort  | O(n + range)         | O(n + range)          | O(n + range)            | O(n + range)     |
+| Comb Sort        | O(n log n)           | O(n²)                 | O(n log n)              | O(1)             |
+| Cycle Sort       | O(n²)                | O(n²)                 | O(n²)                   | O(1)             |
+| Gnome Sort       | O(n)                 | O(n²)                 | O(n²)                   | O(1)             |

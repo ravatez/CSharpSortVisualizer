@@ -14,7 +14,7 @@ public class BubbleSort : Base
             {
                 if (elements[j] > elements[j + 1])
                 {
-                    Swap(j, j + 1);
+                    Swap(elements, j, j + 1);
                     swapped = true;
                 }
             }

@@ -1,22 +1,21 @@
-using System;
+using Sort.Base;
 
-public class InsertionSort
+public class InsertionSort : Base
 {
-    public static void Sort(int[] array)
+    public override void Sort(int[] elements)
     {
-        int n = array.Length;
-        for (int i = 1; i < n; i++)
+        int n = elements.Length;
+        for (int i = 1; i < n; ++i)
         {
-            int key = array[i];
+            int key = elements[i];
             int j = i - 1;
 
-            // Move elements of array[0..i-1], that are greater than key, to one position ahead of their current position
-            while (j >= 0 && array[j] > key)
+            while (j >= 0 && elements[j] > key)
             {
-                array[j + 1] = array[j];
-                j--;
+                elements[j + 1] = elements[j];
+                j = j - 1;
             }
-            array[j + 1] = key;
+            elements[j + 1] = key;
         }
     }
 }

@@ -8,7 +8,13 @@ class Program
         Base bubbleSort = new BubbleSort();
 
         SortContextManager contextManager = new();
-        contextManager.AddElements(new[] { 34, 7, 23, 32, 5, 62 });
+
+        var random = new Random();
+        int[] shuffledArray = Enumerable.Range(1, 100).OrderBy(_ => random.Next()).ToArray();
+
+        // Now add to your context
+        contextManager.AddElements(shuffledArray);
+        contextManager.Display();
         contextManager.AddContext(bubbleSort);
         contextManager.Sort();
         contextManager.Display();

@@ -1,60 +1,50 @@
-using System;
+using Sort.Base;
 
-public class MergeSort
+public class MergeSort : Base
 {
-    public static void Sort(int[] array, int left, int right)
+    public override void Sort(int[] elements)
+    {
+        MergeSortRecursive(elements, 0, elements.Length - 1);
+    }
+
+    private void MergeSortRecursive(int[] arr, int left, int right)
     {
         if (left < right)
         {
-            int middle = (left + right) / 2;
-
-            Sort(array, left, middle);
-            Sort(array, middle + 1, right);
-
-            Merge(array, left, middle, right);
+            int middle = left + (right - left) / 2;
+            MergeSortRecursive(arr, left, middle);
+            MergeSortRecursive(arr, middle + 1, right);
+            Merge(arr, left, middle, right);
         }
     }
 
-    private static void Merge(int[] array, int left, int middle, int right)
+    private void Merge(int[] arr, int left, int middle, int right)
     {
-        int leftArrayLength = middle - left + 1;
-        int rightArrayLength = right - middle;
+        int n1 = middle - left + 1;
+        int n2 = right - middle;
 
-        int[] leftArray = new int[leftArrayLength];
-        int[] rightArray = new int[rightArrayLength];
+        int[] L = new int[n1];
+        int[] R = new int[n2];
 
-        Array.Copy(array, left, leftArray, 0, leftArrayLength);
-        Array.Copy(array, middle + 1, rightArray, 0, rightArrayLength);
+        for (int i = 0; i < n1; i++)
+            L[i] = arr[left + i];
+        for (int j = 0; j < n2; j++)
+            R[j] = arr[middle + 1 + j];
 
-        int i = 0, j = 0, k = left;
+        int i1 = 0, j1 = 0, k = left;
 
-        while (i < leftArrayLength && j < rightArrayLength)
+        while (i1 < n1 && j1 < n2)
         {
-            if (leftArray[i] <= rightArray[j])
-            {
-                array[k] = leftArray[i];
-                i++;
-            }
+            if (L[i1] <= R[j1])
+                arr[k++] = L[i1++];
             else
-            {
-                array[k] = rightArray[j];
-                j++;
-            }
-            k++;
+                arr[k++] = R[j1++];
         }
 
-        while (i < leftArrayLength)
-        {
-            array[k] = leftArray[i];
-            i++;
-            k++;
-        }
+        while (i1 < n1)
+            arr[k++] = L[i1++];
 
-        while (j < rightArrayLength)
-        {
-            array[k] = rightArray[j];
-            j++;
-            k++;
-        }
+        while (j1 < n2)
+            arr[k++] = R[j1++];
     }
 }

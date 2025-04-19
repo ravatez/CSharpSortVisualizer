@@ -1,39 +1,35 @@
-using System;
+using Sort.Base;
 
-public class QuickSort
+public class QuickSort : Base
 {
-    public static void Sort(int[] array, int left, int right)
+    public override void Sort(int[] elements)
     {
-        if (left < right)
+        QuickSortRecursive(elements, 0, elements.Length - 1);
+    }
+
+    private void QuickSortRecursive(int[] arr, int low, int high)
+    {
+        if (low < high)
         {
-            int pivotIndex = Partition(array, left, right);
-            Sort(array, left, pivotIndex - 1);
-            Sort(array, pivotIndex + 1, right);
+            int pi = Partition(arr, low, high);
+            QuickSortRecursive(arr, low, pi - 1);
+            QuickSortRecursive(arr, pi + 1, high);
         }
     }
 
-    private static int Partition(int[] array, int left, int right)
+    private int Partition(int[] arr, int low, int high)
     {
-        int pivot = array[right];
-        int i = left - 1;
-
-        for (int j = left; j < right; j++)
+        int pivot = arr[high];
+        int i = low - 1;
+        for (int j = low; j < high; j++)
         {
-            if (array[j] < pivot)
+            if (arr[j] < pivot)
             {
                 i++;
-                Swap(array, i, j);
+                Swap(arr, i, j);
             }
         }
-
-        Swap(array, i + 1, right);
+        Swap(arr, i + 1, high);
         return i + 1;
-    }
-
-    private static void Swap(int[] array, int a, int b)
-    {
-        int temp = array[a];
-        array[a] = array[b];
-        array[b] = temp;
     }
 }

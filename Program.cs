@@ -14,7 +14,7 @@ class Program
 
         // Now add to your context
         contextManager.AddElements(shuffledArray);
-        contextManager.Display();
+        //contextManager.Display();
         contextManager.AddContext(bubbleSort);
         contextManager.Sort();
         contextManager.Display();

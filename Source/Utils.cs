@@ -10,7 +10,6 @@ public static class Utils
 
     public static int[] GetArrayWithRandomNumbers(int min,int max,int length)
     {
-        Random rnd = new Random();
         int[] rndArray = new int[length];
         for(int i = 0; i< length; i++)
         {

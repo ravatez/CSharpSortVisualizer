@@ -1,12 +1,41 @@
 ﻿<Window x:Class="SortingVisualization.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SortingVisualization"
-        mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+
     <Grid>
-        
+        <!-- Define two rows: one for controls, one for canvas -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Top controls -->
+            <RowDefinition Height="*"/>
+            <!-- Visualization canvas -->
+        </Grid.RowDefinitions>
+
+        <!-- Top controls row -->
+        <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="0">
+            <Label Content="Algorithms:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <ComboBox x:Name="AlgorithmSelection" Width="145" SelectionChanged="ComboBox_SelectionChanged">
+                <ComboBoxItem Content="BubbleSort"/>
+                <ComboBoxItem Content="SelectionSort"/>
+                <ComboBoxItem Content="InsertionSort"/>
+                <ComboBoxItem Content="MergeSort"/>
+                <ComboBoxItem Content="QuickSort"/>
+                <ComboBoxItem Content="HeapSort"/>
+                <ComboBoxItem Content="BucketSort"/>
+                <ComboBoxItem Content="TimSort"/>
+                <ComboBoxItem Content="ShellSort"/>
+                <ComboBoxItem Content="RadixSort"/>
+                <ComboBoxItem Content="CountingSort"/>
+                <ComboBoxItem Content="CombSort"/>
+                <ComboBoxItem Content="GnomeSort"/>
+                <ComboBoxItem Content="PigeonholeSort"/>
+                <ComboBoxItem Content="CycleSort"/>
+            </ComboBox>
+            <Button x:Name="StartButton" Content="Start" Width="62" Margin="20,0,0,0" Click="StartButton_Click"/>
+        </StackPanel>
+
+        <!-- Visualization area -->
+        <Canvas x:Name="VisualizationCanvas" Background="LightGray" Grid.Row="1" Margin="20"/>
     </Grid>
 </Window>

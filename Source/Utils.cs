@@ -1,11 +1,13 @@
 ﻿using System;
 public static class Utils
 {
+    private static readonly Random rnd = new Random();  // Single instance
+
     public static int GetRandomNumberInRange(int min, int max)
     {
-        Random rnd = new Random();
         return rnd.Next(min, max);
     }
+
     public static int[] GetArrayWithRandomNumbers(int min, int max, int length)
     {
         int[] rndArray = new int[length];

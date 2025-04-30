@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
+
+using Path = System.IO.Path;
 
 namespace SortingVisualization
 {
@@ -20,32 +24,54 @@ namespace SortingVisualization
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool _isFinished = false;
         private SortContextManager contextManager = new SortContextManager();
         private int[] currentArray;
+
+        private CancellationTokenSource _cancellationTokenSource;
+
+        private string _imageDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+            "CanvasFrames");
+
+        private bool _isFinished = false;
+
+        private bool _isRecording = true; // TODO Checkbox if recording is enabled
+        private int _frameIndex = 0;
         public MainWindow()
         {
             InitializeComponent();
-            var currentArray = Utils.GetArrayWithRandomNumbers(10, 100, 50);
-            DrawArray(currentArray);
+            this.Loaded += MainWindow_Loaded;
         }
-        private void StartButton_Click(object sender, RoutedEventArgs e)
+        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            var currentArray = Utils.GetArrayWithRandomNumbers(1, 100, 50);
+            Console.WriteLine(string.Join(", ", currentArray));
+            await DrawArray(currentArray.ToList());
+        }
+        private async void StartButton_Click(object sender, RoutedEventArgs e)
         {
             //Selected algorithm from the ComboBox
             var selectedAlgorithm = (AlgorithmSelection.SelectedItem as ComboBoxItem)?.Content.ToString();
             Console.WriteLine(selectedAlgorithm);
             Base strategy = GetSortStrategy(selectedAlgorithm);
-            if (strategy != null)
+            if (strategy == null)
             {
                 MessageBox.Show("Please select a valid sorting algorithm");
                 return;
             }
+            var currentArray = Utils.GetArrayWithRandomNumbers(1, 100, 50);
+            if (currentArray == null || currentArray.Length == 0)
+            {
+                MessageBox.Show("Generated array is empty. Cannot proceed.");
+                return;
+            }
             contextManager.AddContext(strategy);
             contextManager.AddElements(currentArray);
+            
             contextManager.Sort();
             contextManager.Display();
             //for re-drawing
-            DrawArray(currentArray);
+            
+            await DrawArray(currentArray.ToList());
 
         }
         private Base GetSortStrategy(string selectedAlgorithm)
@@ -86,26 +112,65 @@ namespace SortingVisualization
                     return null;
             }
         }
-        private void DrawArray(int[] currentArray)
+        //private void DrawArray(int[] currentArray)
+        //{
+        //    if (currentArray == null || currentArray.Length == 0) return;
+
+        //    VisualizationCanvas.Children.Clear();
+
+        //    double canvasWidth = VisualizationCanvas.ActualWidth;
+        //    double canvasHeight = VisualizationCanvas.ActualHeight;
+
+        //    double barWidth = canvasWidth / currentArray.Length;
+
+        //    for (int i = 0; i < currentArray.Length; i++)
+        //    {
+        //        double height = Math.Max((currentArray[i] / 100.0) * canvasHeight, 1);
+        //        Rectangle rect = new Rectangle
+        //        {
+        //            Width = Math.Max(barWidth - 2, 1),
+        //            Height = height,
+        //            Fill = Brushes.SteelBlue
+        //        };
+
+        //        Canvas.SetLeft(rect, i * barWidth);
+        //        Canvas.SetBottom(rect, 0);
+        //        VisualizationCanvas.Children.Add(rect);
+        //    }
+        //}
+
+        public async Task DrawArray(List<int> array, bool isFinished = false)
         {
             VisualizationCanvas.Children.Clear();
-            double barWidth = VisualizationCanvas.ActualWidth/currentArray.Length;
+
+            if (array == null || array.Count == 0) return;
+
+            int barWidth = (int)(VisualizationCanvas.ActualWidth / array.Count);
             double canvasHeight = VisualizationCanvas.ActualHeight;
 
-            for (int i = 0; i < currentArray.Length; i++)
+            for (int i = 0; i < array.Count; i++)
             {
-                double height = (currentArray[i]/100.0) * canvasHeight;
                 var rect = new Rectangle
                 {
+                    Height = (array[i] / 100.0) * canvasHeight,
                     Width = Math.Max(barWidth - 2, 1),
-                    Height = height,
-                    Fill = Brushes.SteelBlue
+                    Fill = isFinished ? Brushes.Green : Brushes.SteelBlue
                 };
                 Canvas.SetLeft(rect, i * barWidth);
                 Canvas.SetBottom(rect, 0);
                 VisualizationCanvas.Children.Add(rect);
             }
+
+            if (_isRecording)
+            {
+                var imagePath = Path.Combine(_imageDirectory, $"frame{_frameIndex:D4}.png");
+                //SaveCanvasAsImage(VisualizationCanvas, imagePath);
+                _frameIndex++;
+            }
+
+            await Task.Delay(500); // Controls animation speed
         }
+
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

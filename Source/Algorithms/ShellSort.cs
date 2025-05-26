@@ -1,19 +1,42 @@
 using SortingVisualization;
-public class ShellSort : Base
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Windows.Shapes;
+using System;
+public class ShellSort : ISortStrategy
 {
-    public override void Sort(int[] elements)
+    public async Task Sort(
+        List<Rectangle> rectangles,
+        Func<int, int, Task> animateSwap,
+        Func<int, int, Task> highlight,
+        Func<bool> isPaused,
+        Func<bool> isRunning, Action<bool> setIsRunning)
     {
-        int n = elements.Length;
+        int n = rectangles.Count;
+
         for (int gap = n / 2; gap > 0; gap /= 2)
         {
             for (int i = gap; i < n; i++)
             {
-                int temp = elements[i];
-                int j;
-                for (j = i; j >= gap && elements[j - gap] > temp; j -= gap)
-                    elements[j] = elements[j - gap];
-                elements[j] = temp;
+                Rectangle temp = new Rectangle { Height = rectangles[i].Height };
+                int j = i;
+
+                while (j >= gap && rectangles[j - gap].Height > temp.Height)
+                {
+                    while (isPaused()) await Task.Delay(100);
+
+                    await highlight(j - gap, j);
+                    rectangles[j].Height = rectangles[j - gap].Height;
+                    j -= gap;
+
+                    await Task.Delay(30);
+                }
+
+                rectangles[j].Height = temp.Height;
+                await Task.Delay(30);
             }
         }
+        Console.WriteLine("End of sort reached");
+        setIsRunning?.Invoke(false);
     }
 }

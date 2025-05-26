@@ -1,68 +1,102 @@
 using SortingVisualization;
 using System;
-public class TimSort : Base
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Windows.Shapes;
+public class TimSort : ISortStrategy
 {
-    const int RUN = 32;
+    private const int RUN = 32;
 
-    public override void Sort(int[] elements)
+    public async Task Sort(
+        List<Rectangle> rectangles,
+        Func<int, int, Task> animateSwap,
+        Func<int, int, Task> highlight,
+        Func<bool> isPaused,
+        Func<bool> isRunning, Action<bool> setIsRunning)
     {
-        int n = elements.Length;
-        for (int i = 0; i < n; i += RUN)
-            InsertionSort(elements, i, Math.Min((i + RUN - 1), (n - 1)));
+        int n = rectangles.Count;
 
-        for (int size = RUN; size < n; size = 2 * size)
+        // Step 1: Sort small runs using Insertion Sort
+        for (int i = 0; i < n; i += RUN)
+            await InsertionSort(rectangles, i, Math.Min(i + RUN - 1, n - 1), animateSwap, highlight, isPaused);
+
+        // Step 2: Merge runs
+        for (int size = RUN; size < n; size *= 2)
         {
             for (int left = 0; left < n; left += 2 * size)
             {
                 int mid = left + size - 1;
-                int right = Math.Min((left + 2 * size - 1), (n - 1));
+                int right = Math.Min(left + 2 * size - 1, n - 1);
 
                 if (mid < right)
-                    Merge(elements, left, mid, right);
+                    await Merge(rectangles, left, mid, right, animateSwap, highlight, isPaused);
             }
         }
+        Console.WriteLine("End of sort reached");
+        setIsRunning?.Invoke(false);
     }
 
-    private void InsertionSort(int[] arr, int left, int right)
+    private async Task InsertionSort(
+        List<Rectangle> rects, int left, int right,
+        Func<int, int, Task> animateSwap, Func<int, int, Task> highlight, Func<bool> isPaused)
     {
         for (int i = left + 1; i <= right; i++)
         {
-            int temp = arr[i];
-            int j = i - 1;
-            while (j >= left && arr[j] > temp)
+            int j = i;
+            while (j > left && rects[j - 1].Height > rects[j].Height)
             {
-                arr[j + 1] = arr[j];
+                while (isPaused())
+                    await Task.Delay(100);
+
+                await highlight(j - 1, j);
+                await animateSwap(j - 1, j);
                 j--;
             }
-            arr[j + 1] = temp;
         }
     }
 
-    private void Merge(int[] arr, int l, int m, int r)
+    private async Task Merge(
+        List<Rectangle> rects, int l, int m, int r,
+        Func<int, int, Task> animateSwap, Func<int, int, Task> highlight, Func<bool> isPaused)
     {
-        int len1 = m - l + 1, len2 = r - m;
-        int[] left = new int[len1];
-        int[] right = new int[len2];
+        var left = new List<Rectangle>();
+        var right = new List<Rectangle>();
 
-        for (int x = 0; x < len1; x++)
-            left[x] = arr[l + x];
-        for (int x = 0; x < len2; x++)
-            right[x] = arr[m + 1 + x];
+        for (int i = l; i <= m; i++) left.Add(rects[i]);
+        for (int i = m + 1; i <= r; i++) right.Add(rects[i]);
 
-        int i = 0, j = 0, k = l;
+        int i1 = 0, i2 = 0, k = l;
 
-        while (i < len1 && j < len2)
+        while (i1 < left.Count && i2 < right.Count)
         {
-            if (left[i] <= right[j])
-                arr[k++] = left[i++];
+            while (isPaused())
+                await Task.Delay(100);
+
+            await highlight(k, k);
+
+            if (left[i1].Height <= right[i2].Height)
+            {
+                rects[k].Height = left[i1++].Height;
+            }
             else
-                arr[k++] = right[j++];
+            {
+                rects[k].Height = right[i2++].Height;
+            }
+
+            k++;
+            await Task.Delay(50);
         }
 
-        while (i < len1)
-            arr[k++] = left[i++];
+        while (i1 < left.Count)
+        {
+            rects[k++].Height = left[i1++].Height;
+            await Task.Delay(30);
+        }
 
-        while (j < len2)
-            arr[k++] = right[j++];
+        while (i2 < right.Count)
+        {
+            rects[k++].Height = right[i2++].Height;
+            await Task.Delay(30);
+        }
     }
 }

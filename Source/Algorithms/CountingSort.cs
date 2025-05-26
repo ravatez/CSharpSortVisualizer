@@ -1,28 +1,74 @@
 using SortingVisualization;
+using System.Collections.Generic;
+using System;
 using System.Linq;
-public class CountingSort : Base
+using System.Threading.Tasks;
+using System.Windows.Shapes;
+public class CountingSort : ISortStrategy
 {
-    public override void Sort(int[] elements)
+    public async Task Sort(
+        List<Rectangle> rectangles,
+        Func<int, int, Task> animateSwap,
+        Func<int, int, Task> highlight,
+        Func<bool> isPaused,
+        Func<bool> isRunning, Action<bool> setIsRunning)
     {
-        int max = elements.Max();
-        int min = elements.Min();
+        int n = rectangles.Count;
+        int max = rectangles.Max(r => (int)r.Height);
+        int min = rectangles.Min(r => (int)r.Height);
         int range = max - min + 1;
+
         int[] count = new int[range];
-        int[] output = new int[elements.Length];
+        Rectangle[] output = new Rectangle[n];
 
-        foreach (int t in elements)
-            count[t - min]++;
-
-        for (int i = 1; i < count.Length; i++)
-            count[i] += count[i - 1];
-
-        for (int i = elements.Length - 1; i >= 0; i--)
+        // Counting occurrences
+        foreach (var rect in rectangles)
         {
-            output[count[elements[i] - min] - 1] = elements[i];
-            count[elements[i] - min]--;
+            while (isPaused()) await Task.Delay(100);
+            count[(int)rect.Height - min]++;
         }
 
-        for (int i = 0; i < elements.Length; i++)
-            elements[i] = output[i];
+        // Cumulative counts
+        for (int i = 1; i < count.Length; i++)
+        {
+            while (isPaused()) await Task.Delay(100);
+            count[i] += count[i - 1];
+        }
+
+        // Build output array (stable)
+        for (int i = n - 1; i >= 0; i--)
+        {
+            while (isPaused()) await Task.Delay(100);
+
+            int height = (int)rectangles[i].Height;
+            int pos = count[height - min] - 1;
+
+            await highlight(i, pos);
+
+            // Place rectangle at output[pos]
+            output[pos] = new Rectangle
+            {
+                Height = rectangles[i].Height,
+                Width = rectangles[i].Width,
+                Fill = rectangles[i].Fill,
+                Stroke = rectangles[i].Stroke,
+                StrokeThickness = rectangles[i].StrokeThickness
+            };
+
+            count[height - min]--;
+            await Task.Delay(50);
+        }
+
+        // Copy back to original list with animation
+        for (int i = 0; i < n; i++)
+        {
+            while (isPaused()) await Task.Delay(100);
+
+            rectangles[i].Height = output[i].Height;
+            await animateSwap(i, i); // Swap with self to animate the update
+            await Task.Delay(30);
+        }
+        Console.WriteLine("End of sort reached");
+        setIsRunning?.Invoke(false);
     }
 }

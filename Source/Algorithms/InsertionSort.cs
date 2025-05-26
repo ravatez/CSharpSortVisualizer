@@ -1,21 +1,37 @@
 using SortingVisualization;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Windows.Shapes;
+using System;
 
-public class InsertionSort : Base
+public class InsertionSort : ISortStrategy
 {
-    public override void Sort(int[] elements)
+    public async Task Sort(
+        List<Rectangle> rectangles,
+        Func<int, int, Task> animateSwap,
+        Func<int, int, Task> highlight,
+        Func<bool> isPaused,
+        Func<bool> isRunning, 
+        Action<bool> setIsRunning)
     {
-        int n = elements.Length;
-        for (int i = 1; i < n; ++i)
-        {
-            int key = elements[i];
-            int j = i - 1;
+        int n = rectangles.Count;
 
-            while (j >= 0 && elements[j] > key)
+        for (int i = 1; i < n; i++)
+        {
+            int j = i;
+
+            while (j > 0 && rectangles[j - 1].Height > rectangles[j].Height)
             {
-                elements[j + 1] = elements[j];
-                j = j - 1;
+                while (isPaused())
+                    await Task.Delay(100);
+
+                await highlight(j - 1, j);
+                await animateSwap(j - 1, j);
+
+                j--;
             }
-            elements[j + 1] = key;
         }
+        Console.WriteLine("End of sort reached");
+        setIsRunning?.Invoke(false);
     }
 }

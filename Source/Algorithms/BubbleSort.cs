@@ -1,24 +1,43 @@
 using SortingVisualization;
-public class BubbleSort : Base
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Windows.Shapes;
+using System;
+using System.Windows;
+public class BubbleSort : ISortStrategy
 {
-    public override void Sort(int[] elements)
+    public async Task Sort(
+    List<Rectangle> rectangles,
+    Func<int, int, Task> animateSwap,
+    Func<int, int, Task> highlight,
+    Func<bool> isPaused,
+    Func<bool> isRunning,
+    Action<bool> setIsRunning)
     {
-        int n = elements.Length; // Corrected to access the length of the array
-        bool swapped;
+        int n = rectangles.Count;
+            
         for (int i = 0; i < n - 1; i++)
         {
-            swapped = false;
-            for (int j = 0; j < n - 1 - i; j++)
+            Console.WriteLine($"Outer loop i={i}");
+            for (int j = 0; j < n - i - 1; j++)
             {
-                if (elements[j] > elements[j + 1])
+                Console.WriteLine($"  Inner loop j={j}");
+                while (isPaused())
+                    await Task.Delay(100);
+
+                if (!isRunning()) return;
+
+                await highlight(j, j + 1);
+
+                if (rectangles[j].Height > rectangles[j + 1].Height)
                 {
-                    Swap(elements, j, j + 1);
-                    swapped = true;
+                    Console.WriteLine("Inside sorting");
+                    await animateSwap(j, j + 1);
                 }
+                    
             }
-            // If no two elements were swapped in the inner loop, then the array is already sorted
-            if (!swapped)
-                break;
         }
+        Console.WriteLine("End of sort reached");
+        setIsRunning?.Invoke(false);
     }
 }

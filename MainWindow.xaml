@@ -4,6 +4,10 @@
         Title="MainWindow" Height="450" Width="800">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="189*"/>
+            <ColumnDefinition Width="211*"/>
+        </Grid.ColumnDefinitions>
         <!-- Define two rows: one for controls, one for canvas -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -13,29 +17,31 @@
         </Grid.RowDefinitions>
 
         <!-- Top controls row -->
-        <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="0">
+        <StackPanel Orientation="Horizontal" Margin="10,10,10,10" Grid.Row="0" Grid.ColumnSpan="2">
             <Label Content="Algorithms:" VerticalAlignment="Center" Margin="0,0,10,0"/>
             <ComboBox x:Name="AlgorithmSelection" Width="145" SelectionChanged="ComboBox_SelectionChanged">
-                <ComboBoxItem Content="BubbleSort"/>
+                <ComboBoxItem Content="BubbleSort" IsSelected="True"/>
                 <ComboBoxItem Content="SelectionSort"/>
                 <ComboBoxItem Content="InsertionSort"/>
                 <ComboBoxItem Content="MergeSort"/>
                 <ComboBoxItem Content="QuickSort"/>
                 <ComboBoxItem Content="HeapSort"/>
-                <ComboBoxItem Content="BucketSort"/>
+                <!-- <ComboBoxItem Content="BucketSort"/> -->
                 <ComboBoxItem Content="TimSort"/>
                 <ComboBoxItem Content="ShellSort"/>
                 <ComboBoxItem Content="RadixSort"/>
                 <ComboBoxItem Content="CountingSort"/>
-                <ComboBoxItem Content="CombSort"/>
+                <!-- <ComboBoxItem Content="CombSort"/>
                 <ComboBoxItem Content="GnomeSort"/>
                 <ComboBoxItem Content="PigeonholeSort"/>
-                <ComboBoxItem Content="CycleSort"/>
+                <ComboBoxItem Content="CycleSort"/> -->
             </ComboBox>
             <Button x:Name="StartButton" Content="Start" Width="62" Margin="20,0,0,0" Click="StartButton_Click"/>
+            <Button x:Name="PauseResume" Content="Pause" Margin="10,0,0,0" Click="PauseResume_Click"/>
+            <!-- <Button x:Name="Reset" Content="Reset" Margin="10,0,0,0" Click="ResetButton_Click"/> -->
         </StackPanel>
 
         <!-- Visualization area -->
-        <Canvas x:Name="VisualizationCanvas" Background="LightGray" Grid.Row="1" Margin="20"/>
+        <Canvas x:Name="VisualizationCanvas" Background="LightGray" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="1" Margin="20,20,20,20" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>
